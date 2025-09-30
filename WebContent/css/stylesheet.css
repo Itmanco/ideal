@@ -1,0 +1,266 @@
+@charset "UTF-8";
+
+/* ==================================== */
+/* 1. General & Global Styles           */
+/* ==================================== */
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+/* Base link styles */
+a {
+    color: black;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #007B66;
+}
+
+/* ==================================== */
+/* 2. Container & Layout                */
+/* ==================================== */
+
+.container{
+    width: 750px; 
+    padding: 14px;
+    border: 4px double black;
+    background-color: white;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container {
+    width: 90%; 
+    max-width: 1200px;
+    padding: 20px;
+    border: 4px double black;
+    background-color: white;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container form {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.container h3 {
+    text-align: left;
+    align-self: flex-start;
+    margin-left: 30px;
+   	margin-top: 0;
+    margin-bottom: 0;
+}
+
+.container form {
+    width: 80%; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+}
+
+.homepage-link,
+.footer-link {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.footer-link a {
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid black;
+    padding-bottom: 2px;
+}
+
+/* ==================================== */
+/* 3. Typography & Headings             */
+/* ==================================== */
+
+h1 {
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 24px;
+    padding: 10px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    text-align: center;
+}
+h4 {
+	font-size: 24px;
+    text-align: center;
+    margin-top: 9px;
+    margin-bottom: 5px;
+}
+
+
+p {
+    color: black;
+    font-size: 16pt;
+    text-decoration: underline;
+    cursor: pointer;
+    margin: 0;
+    padding: 5px 0;
+}
+
+span {
+    font-size: 12px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
+}
+
+th {
+  background-color: #e9e9e9;
+}
+
+/* ==================================== */
+/* 4. Form Elements & Components        */
+/* ==================================== */
+
+.form-group,
+.form-actions {
+    display: flex;
+    width: 100%;
+    margin-bottom: 2px;
+    border: 1px solid black;
+    box-sizing: border-box;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 120px;
+    padding: 2px;
+    border-right: 1px solid black;
+    color: #007B66;
+    background-color: #A4FFDB;
+    box-sizing: border-box;
+}
+
+.form-group input:not([type="radio"]),
+.form-group textarea,
+.form-group select,
+.display-value {
+    flex-grow: 1;
+    border: none;
+    padding: 5px;
+    box-sizing: border-box;
+    background: rgb(255, 255, 255);
+}
+
+input {
+    border: 1px solid #000;
+    padding: 5px;
+    width: 100%;
+}
+
+input[type="radio"] {
+    width: auto;
+    padding: 0;
+    margin: 0 30px;
+    margin-right: 20px;
+}
+
+textarea.detail-input {
+    height: 60px;
+    vertical-align: top;
+}
+
+button {
+    background-color: #d3d3d3;
+    border: 2px solid #000;
+    padding: 8px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    max-width: 200px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    background-color: #A4FFDB;
+}
+
+.actions {
+    justify-content: center;
+    align-items: center;
+}
+
+.form-actions button,
+.actions button {
+    margin: 5px;
+    padding: 4px 20px;
+    border: 1px solid black;
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    button {
+        padding: 3px 5px; /* Reduced padding for smaller screens */
+    }
+}
+
+/* ==================================== */
+/* 5. Utility & Spacing                 */
+/* ==================================== */
+
+
+.comments {
+    width: 80%;
+    height: 40px;
+    text-align: center;
+    color: rgb(255, 0, 0);
+    font-size: 14pt;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.form-group input.error-field {
+    border: 2px solid orange;
+}
+
+.submit-row {
+    margin: 25px 0;
+    text-align: center;
+}
+
+.last-item-spacing {
+    margin-top: 50px;
+}
+
+.submit-trigger {
+    cursor: pointer;
+    padding: 5px 0;
+}
