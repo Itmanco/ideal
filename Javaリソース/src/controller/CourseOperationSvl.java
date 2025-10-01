@@ -192,13 +192,10 @@ public class CourseOperationSvl extends HttpServlet {
 						// Deletion process
 						c = new Course();
 						c.setCourseId(Integer.parseInt(request.getParameter("courseId")));
-						cts = new ArrayList<Coursectl>();
-
-						System.out.println("-->> CourseOperationSvl-DELETE: " + c);						
+						cts = new ArrayList<Coursectl>();					
 												
 						try {
 							Reserve.reserveCourseChk(c.getCourseId());
-							System.out.println("CourseOperationSvl-DELETE->after: reserveCourseChk");
 							Course.updateCourse(c, mode, cts);
 						} catch (IdealException ee) {
 							request.setAttribute("msg", ee.getMsg());
@@ -333,5 +330,6 @@ public class CourseOperationSvl extends HttpServlet {
 
 		return;
 	}
+
 
 }
