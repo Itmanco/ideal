@@ -85,6 +85,7 @@ public class MenuDeleteSvl extends HttpServlet {
 			int typeId = 100; // Default values
 			int menuId = -1;  // Default values
 			
+			// ⭐ FIX: Try to retrieve attributes (set by forward) first, then parameters
 			try {
 				// 1. Try to get values from Request Attributes (used when forwarded on error)
 				Object typeIdAttr = request.getAttribute("typeId");
@@ -129,13 +130,6 @@ public class MenuDeleteSvl extends HttpServlet {
 					// ===== コース削除処理 =====
 					// ===== Course deletion process =====
 					
-					// Assuming 'getOneCourse' takes the menuId (which is the courseId here)
-					ArrayList<ArrayList<Menu>> typeMuneList = new ArrayList<>();
-					for (int value : Course.COURSE_MENU_TYPE_ID) {
-						typeMuneList.add(Menu.getMenu(value));
-					}
-					request.setAttribute("typeMuneList", typeMuneList);
-
 					ArrayList<Course> localOneCourse = Course.getOneCourse(menuId);
 					
 					if (localOneCourse == null || localOneCourse.size() < 1) {
@@ -169,6 +163,5 @@ public class MenuDeleteSvl extends HttpServlet {
 		rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);
 	}
-
 
 }
