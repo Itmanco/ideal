@@ -139,7 +139,7 @@ background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
 						<td id="price"><%=cf.format(m.getPrice())%></td>
 						<td id="comm"><%=fmtNull(m.getDetail())%></td>
 						<td id="ord"><%=order[m.getOrderFlg()]%></td>						
-						<td>
+						<td style="width:50px">
 							<form action='<%=request.getContextPath() + "/menu/MenuUpdateSvl"%>' method="post">
 
 							<input type="hidden" name="menuId" value="<%=m.getMenuId()%>"/>
@@ -147,7 +147,7 @@ background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
 							<input type="submit" value="使新"/>
 							</form>
 						</td>
-						<td>
+						<td style="width:50px">
 							<form action='<%=request.getContextPath() + "/menu/MenuDeleteSvl"%>' method="post">
 
 							<input type="hidden" name="menuId" value="<%=m.getMenuId()%>"/>
