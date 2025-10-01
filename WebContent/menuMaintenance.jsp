@@ -169,7 +169,7 @@ background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
 					<tr>
                         <td colspan="7">
                             <div class="footer-link">
-                                <a href="<%= request.getContextPath() %>/adminIndex.jsp">処理選択に戻る</a>
+                                <a href="${pageContext.request.contextPath}/adminIndex.jsp">処理選択に戻る</a>
                             </div>
                         </td>
                     </tr>					
