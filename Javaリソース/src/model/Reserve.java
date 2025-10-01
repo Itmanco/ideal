@@ -398,7 +398,6 @@ public class Reserve implements Serializable {
 			if(rs.next()) {
 				// 予約が存在する場合は例外をスロー
 				// Throw exception if a reservation exists
-				System.out.println("reserveCourseChk:ERR_NO_NOT_RESERV_DELETE");
 				throw new IdealException(IdealException.ERR_NO_NOT_RESERV_DELETE);
 			}
 		}catch (IdealException ie) {
@@ -810,4 +809,5 @@ public class Reserve implements Serializable {
 	    // The reservation has passed if its time is less than or equal to the current time.
 	    return rsvTimeMillis <= currentTimeMillis;
 	}
+
 }
