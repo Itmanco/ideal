@@ -116,7 +116,7 @@ public class MenuUpdateSvl extends HttpServlet {
                     // ===== コース更新モード / Course update mode =====
                     ArrayList<ArrayList<Menu>> typeMenuList = new ArrayList<>();
                     for (int value : Course.COURSE_MENU_TYPE_ID) {
-                        typeMenuList.add(Menu.getMenu(value));
+                        typeMenuList.add(Menu.getMenuActive(value));
                     }
                     request.setAttribute("typeMuneList", typeMenuList);
 
@@ -143,7 +143,9 @@ public class MenuUpdateSvl extends HttpServlet {
 
         // メッセージを設定して JSP へフォワード
         // Set message and forward to JSP
-        request.setAttribute("msg", message);
+		if (request.getAttribute("msg") == null) {
+			request.setAttribute("msg", message);
+		}	
         rd = request.getRequestDispatcher(url);
         rd.forward(request, response);
     }
