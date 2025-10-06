@@ -110,7 +110,7 @@ public class MenuInsertSvl extends HttpServlet {
                     // ===== Course insertion process =====
                     ArrayList<ArrayList<Menu>> typeMenuList = new ArrayList<>();
                     for (int value : Course.COURSE_MENU_TYPE_ID) {
-                        typeMenuList.add(Menu.getMenu(value));
+                        typeMenuList.add(Menu.getMenuActive(value));
                     }
                     request.setAttribute("typeMenuList", typeMenuList);
                     url = "../courseInsert.jsp";
