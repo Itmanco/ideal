@@ -6,18 +6,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert Menu</title>
+<title>新しいメニューを追加</title>
 <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/stylesheet.css" />
-<style>
-.form-actions {
-    display: flex;           
-    justify-content: flex-end; 
-    align-items: center;
-    background-color: #A4FFDB;
-    gap: 10px;               
-    padding: 5px;  
-}
-</style>
 <script type="text/javascript">
 function dataCheck(obj){
 	var msg = "";
@@ -66,15 +56,15 @@ function dataCheck(obj){
         ${msg}
     </div>
    	<div class="form-group">
-        <label for="menuName">メニュー名</label>
+        <label for="menuName">メニュー名 ※</label>
         <input type="text" id="menuName" name="menuName"/>
     </div>
    	<div class="form-group">
-        <label for="price">価格</label>
+        <label for="price">価格 ※</label>
         <input type="text" id="price" name="price"/>
     </div>
     <div class="form-group">
-        <label for="orderFlg">オーダー可</label>
+        <label for="orderFlg">オーダー可 ※</label>
         <div style="flex-grow: 1; display: flex; align-items: center; padding: 5px;">
 			<input type="radio" name="orderFlg" id="orderFlg" value="1"/>可
 			<input type="radio" name="orderFlg" id="orderFlg" value="0"/>不可		
@@ -94,7 +84,7 @@ function dataCheck(obj){
     </div>
     <input type="hidden" name="mode" value="<%=MenuOperationSvl.INSERT %>" />
 	<div class="form-actions">
-    	<span>※は必須入力です。</span><button type="submit">コースを追加</button>
+    	<span>※は必須入力です。</span><button type="submit">メニューを追加</button>
     </div>
 </form>
 <div class="footer-link">
