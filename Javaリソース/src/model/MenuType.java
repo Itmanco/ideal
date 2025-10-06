@@ -188,6 +188,52 @@ public class MenuType implements Serializable {
 		return al;
 	}
 
+	public static ArrayList<MenuType> getAllTypeActive() throws IdealException {
+		ArrayList<MenuType> al = new ArrayList<MenuType>();
+		InitialContext ic = null;
+		DataSource ds = null;
+		Connection con = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			ic = new InitialContext();
+			ds = (DataSource) ic.lookup("java:comp/env/mariadb");
+			con = ds.getConnection();
+			sql = "SELECT * FROM menuType ORDER BY t_id";
+			pst = con.prepareStatement(sql);
+			rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				MenuType mt = new MenuType();
+				mt.setTypeId(rs.getInt("t_id"));
+				mt.setTypeName(rs.getString("t_name"));
+				al.add(mt);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new IdealException(1);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pst != null) {
+					pst.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return al;
+	}
+
+	
+	
 	/**
 	 * コースタイプ（t_id = 100）を除いたすべてのメニュータイプ情報をデータベースから取得します。
 	 * Retrieves all menu type information from the database, excluding the course type (t_id = 100).
