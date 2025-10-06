@@ -475,6 +475,91 @@ public class Menu implements Serializable {
 		return al;
 	}
 	
+	public static ArrayList<Menu> getMenuActive(int typeId) throws IdealException {
+		ArrayList<Menu> al = new ArrayList<Menu>();
+		InitialContext ic = null;
+		DataSource ds = null;
+		Connection con = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		try {
+			ic = new InitialContext();
+			ds = (DataSource) ic.lookup("java:comp/env/mariadb");
+			con = ds.getConnection();
+			
+			// タイプIDが100の場合はコース情報を取得、それ以外はメニュー情報を取得
+			// If type ID is 100, get course information; otherwise, get menu information
+			if (typeId == 100) {
+				sql =
+					"SELECT"
+					+ " c_id,"
+					+ " c_name,"
+					+ " detail,"
+					+ " orderFlg,"
+					+ " price,"
+					+ " menuType.t_id,"
+					+ " menuType.t_name"
+					+ " FROM course"
+					+ " JOIN"
+					+ " menuType USING(t_id)"
+					+ " WHERE t_id = ? AND orderFlg = 1"
+					+ " ORDER BY t_id";
+			} else {
+				sql =
+					"SELECT"
+					+ " m_id,"
+					+ " m_name,"
+					+ " detail,"
+					+ " orderFlg,"
+					+ " price,"
+					+ " t_id,"
+					+ " t_name"
+					+ " FROM menu"
+					+ " JOIN menuType USING(t_id)"
+					+ " WHERE t_id = ? AND orderFlg = 1"
+					+ " ORDER BY t_id";
+			}
+	
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, typeId);
+			rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				Menu m = new Menu();
+				m.setMenuId(rs.getInt(1));
+				m.setMenuName(rs.getString(2));
+				m.setDetail(rs.getString(3));
+				m.setOrderFlg(rs.getInt(4));
+				m.setPrice(rs.getInt(5));
+				m.setTypeId(rs.getInt(6));
+				m.setTypeName(rs.getString(7));
+				al.add(m);
+			}
+		} catch (Exception e) {
+			System.out.println(pst);
+			e.printStackTrace();
+			throw new IdealException(IdealException.ERR_NO_DB_EXCEPTION);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (pst != null) {
+					pst.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return al;
+	}
+	
+	
 	/**
 	 * メニュー情報をデータベースで更新（新規登録、更新、削除）します。
 	 *
@@ -510,24 +595,40 @@ public class Menu implements Serializable {
 					pst.setInt(3, m.getOrderFlg());
 					pst.setInt(4, m.getPrice());
 					pst.setInt(5, m.getTypeId());
+					num = pst.executeUpdate();
 					break;
 				case MenuOperationSvl.UPDATE:
-					// メニュー情報更新用のSQL
-					// SQL for menu information update
-					sql = "UPDATE menu "
-							+ "SET m_name = ?, "
-							+ "detail = ?, "
-							+ "orderFlg = ?, "
-							+ "price = ?, "
-							+ "t_id = ? "
-							+ "WHERE m_id = ?";
-					pst = con.prepareStatement(sql);
-					pst.setString(1, m.getMenuName());
-					pst.setString(2, m.getDetail());
-					pst.setInt(3, m.getOrderFlg());
-					pst.setInt(4, m.getPrice());
-					pst.setInt(5, m.getTypeId());
-					pst.setInt(6, m.getMenuId());
+					try (							
+						PreparedStatement selectPst = con.prepareStatement("select * FROM coursectl WHERE m_id = ?");
+						// メニュー情報更新用のSQL
+						// SQL for menu information update
+						PreparedStatement updatePst = con.prepareStatement(
+								"UPDATE menu "
+								+ "SET m_name = ?, "
+								+ "detail = ?, "
+								+ "orderFlg = ?, "
+								+ "price = ?, "
+								+ "t_id = ? "
+								+ "WHERE m_id = ?");
+						) {					
+						
+						selectPst.setInt(1, m.getMenuId());
+						ResultSet rs = selectPst.executeQuery();
+						if(rs.next()) {
+							// 予約が存在する場合は例外をスロー
+							// Throw exception if a reservation exists
+							System.out.println("reserveCourseChk:ERR_NO_NOT_MENU_DELETE");
+							throw new IdealException(IdealException.ERR_NO_NOT_MENU_DELETE);
+						}
+						
+						updatePst.setString(1, m.getMenuName());
+						updatePst.setString(2, m.getDetail());
+						updatePst.setInt(3, m.getOrderFlg());
+						updatePst.setInt(4, m.getPrice());
+						updatePst.setInt(5, m.getTypeId());
+						updatePst.setInt(6, m.getMenuId());
+						num = updatePst.executeUpdate();
+					}
 					break;
 				case MenuOperationSvl.DELETE:
 					// メニュー削除用のSQL
@@ -535,14 +636,17 @@ public class Menu implements Serializable {
 					sql = "DELETE FROM menu WHERE m_id = ?";
 					pst = con.prepareStatement(sql);
 					pst.setInt(1, m.getMenuId());
+					num = pst.executeUpdate();
 					break;
 				default:
 					break;
 			}
-			num = pst.executeUpdate();
 			
-		} catch (SQLIntegrityConstraintViolationException e) {
-	        e.printStackTrace();
+			
+		} catch (IdealException ei) {	        
+			throw new IdealException(ei.getErrCd());	        
+	    }catch (SQLIntegrityConstraintViolationException e) {
+	        //e.printStackTrace();
 	        throw new IdealException(IdealException.ERR_NO_NOT_MENU_DELETE);	        
 	    }
 		catch (Exception e) {
