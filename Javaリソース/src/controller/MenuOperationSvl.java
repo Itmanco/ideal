@@ -181,15 +181,18 @@ public class MenuOperationSvl extends HttpServlet {
                     m.setTypeId(Integer.parseInt(request.getParameter("typeId")));
 
                     try {
+                    	request.setAttribute("mType", MenuType.getAllType());
+                        request.setAttribute("menu", Menu.getMenu(typeId));
                         Menu.updateMenu(m, mode);
                         Menu updatedMenu = Menu.getOneMenu(m.getMenuId(), m.getTypeId());
                         request.setAttribute("oneMenu", updatedMenu);
-                        request.setAttribute("mType", MenuType.getAllType());
-                        request.setAttribute("menu", Menu.getMenu(typeId));
+                        
                         url = "../menuMaintenance.jsp";
                     } catch (IdealException e) {
-                        message = e.getMsg();
-                        url = "../menuUpdate.jsp";
+                        request.setAttribute("msg", e.getMsg());
+                        rd = request.getRequestDispatcher("/menu/MenuUpdateSvl");
+						rd.forward(request, response); 
+				        return; 
                     }
                     break;
 
