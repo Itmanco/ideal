@@ -8,64 +8,27 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Menu Maintenance</title>
+<link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/css/stylesheet.css" />
 <style>
-h1{text-align:center;background:#007B66;color:#ECFFF3; width: 100%;} /* Added width to h1 to stretch */
-table{width:100%; text-align:center; margin:auto;} /* Set table to 100% width and centered */
-caption{font-size:18pt;color:#009967;}
 tr#data0{background:#E3FFE3;}
 tr#data1{background:#A4FFDB;}
-th{background:#007B66;color:#ECFFF3;}
-td{text-align:left;vertical-align:top;white-space:nowrap;}
-td#outer{padding:10px;background:#FAFFE3;}
+td#outer{padding:10px;background:#FAFFE3; margin-left: 5px;}
 #code{width:40px;text-align:center;}
-#menu{width:250px;}
-#price{width:60px;text-align:right;padding-right:5px;}
-#comm{width:300px;}
-#ord{width:100px;text-align:center;}
-#btn{width:100px;}	
+#menu{width:250px;text-align:left;}
+#comm{width:300px;text-align:left;}
+#ord{width:70px;text-align:center;}
 div#type1{width:120px;border:solid gray 1px;
-background:#E3FFE3;color:#007B53;padding:2px;cursor:pointer;margin-top:5px;}
+background:#f5f5dc;color:rgb(70, 70, 70);padding:2px;cursor:pointer;margin-top:5px;font-weight: 700;}
 div#type2{width:120px;border:solid gray 1px;
-background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
-.comments{
-	padding-top:6px;
-	padding-bottom:4px;
-	text-align:center;
-	color:blue;
-	font-size:14pt;
-	font-weight: 700;
-}
+background:rgb(70, 70, 70);color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;font-weight: bold;}
 .right-cell {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* This centers content vertically */
-    align-items: flex-end; /* Align content to the right */
-    padding-left: 10px; /* Add some padding to the left */
-}
-.form-container {
-    width: 95%;
-    padding: 20px;
-    border: 4px double black;
-    background-color: white;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px auto; /* Added to center the container */
+    justify-content: center;
+    align-items: flex-end;
+    padding-left: 10px;
 }
 
-/* Updated style for the button's parent div to control spacing */
-.footer-link {
-    margin-top: 50px;       /* Adds space above the link */
-    text-align: center; 
-}
-
-.footer-link a {
-    text-decoration: none;
-    color: black;
-    border-bottom: 1px solid black;
-    padding-bottom: 2px;
-}
 </style>
 </head>
 <body>
@@ -92,7 +55,7 @@ background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
 
 	<table>
 		<tr>
-			<td id="outer">
+			<td id="outer" style="width: 150px;">
 			<%
 			for(int i = 0; i < mType.size(); i++){
 				MenuType mt = (MenuType)mType.get(i);
@@ -112,19 +75,19 @@ background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
 			</td>
 			<td id="outer" class="right-cell">
 				<table>
-					<caption> &lt;&lt;&lt;
+					<span> &lt;&lt;&lt;
 					<% try{ %>
 					<%= ((Menu)menu.get(0)).getTypeName() %>
 					<% }catch(Exception e){ %>
 					メニューがありません。
 					<% } %>
 					&gt;&gt;&gt;
-					</caption>
+					</span>
 					<tr>
 						<th id="code">ID</th>
-						<th id="menu">メニュー</th>
+						<th>メニュー</th>
 						<th id="price">値段</th>
-						<th id="comm">コメント</th>
+						<th>コメント</th>
 						<th id="ord">オーダー可</th>
 						<th id="btn" colspan="2"></th>
 					</tr>	
@@ -158,25 +121,19 @@ background:#007B53;color:#E3FFE3;padding:2px;cursor:pointer;margin-top:5px;}
 					</tr>
 					
 					<% } %>
-					<tr>
-						<form action='<%= request.getContextPath() + "/menu/MenuInsertSvl" %>' method="post">
-						<th colspan="7">
-							<input type="hidden" name="typeId" value="<%= typeId %>"/>							
-							<input type="submit" value='<%= typeId == 100 ? "新しいコースの追加" : "新しいメニューの追加" %>'>
-						</th>						
-						</form>
-					</tr>
-					<tr>
-                        <td colspan="7">
-                            <div class="footer-link">
-                                <a href="${pageContext.request.contextPath}/adminIndex.jsp">処理選択に戻る</a>
-                            </div>
-                        </td>
-                    </tr>					
 				</table>
+				<div class="actions">
+					<form action='<%= request.getContextPath() + "/menu/MenuInsertSvl" %>' method="post">
+			    		<input type="hidden" name="typeId" value="<%= typeId %>"/>							
+						<input type="submit" value='<%= typeId == 100 ? "新しいコースの追加" : "新しいメニューの追加" %>'>
+			    	</form>
+			    </div>
 			</td>
 		</tr>
 	</table>
+	<div class="footer-link">
+		<a href="${pageContext.request.contextPath}/adminIndex.jsp">処理選択に戻る</a>
+	</div>
 </div>
 </body>
 </html>
