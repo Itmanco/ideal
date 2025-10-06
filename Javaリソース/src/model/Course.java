@@ -828,7 +828,7 @@ public class Course implements Serializable {
 				}
 			}
 			e.printStackTrace();
-			throw new IdealException(5);
+			throw new IdealException(IdealException.ERR_NO_DB_EXCEPTION);
 		} finally {
 			try {
 				if (con != null) {
